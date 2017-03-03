@@ -1,12 +1,30 @@
 import csv
 from statistics import mean
 import operator
+import math
 
 
 class User:
-    def __init__(self, user_id, rtg_by_user_id):
+    def __init__(self, user_id):
         self.user_id = user_id
-        self.rtg_by_user_id = {}
+        self.movies_and_ratings = rtg_by_user_id[self.user_id]
+        self.movies_seen = []
+        self.movies_not_seen = []
+
+    def get_shared_movies(self, other):
+        shared_movies = []
+        if len(self.movies_and_ratings) <= len(other.movies_and_ratings):
+            for i in self.movies_and_ratings:
+                if i in other.movies_and_ratings:
+                    shared_movies.append(i[0])
+        else:
+            for j in other.movies_and_ratings:
+                if j in other.movies_and_ratings:
+                    shared_movies.append(j[0])
+        return shared_movies
+
+    def get_shared_ratings(self, shared_movies):
+        return [self.movies_and_ratings[1] for movie in shared_movies if self.movies_and_ratings[0] == movie]
 
 
 class Movie:
@@ -44,6 +62,23 @@ def get_movie_data(rtg_by_movie_id, rtg_by_user_id, movie_names):
     return(rtg_by_movie_id, movie_names)
 
 
+def euclidean_distance(v, w):
+    """Given two lists, give the Euclidean distance between them on a scale
+    of 0 to 1. 1 means the two lists are identical.
+    """
+
+    # Guard against empty lists.
+    if len(v) is 0:
+        return 0
+
+    # Note that this is the same as vector subtraction.
+    differences = [v[idx] - w[idx] for idx in range(len(v))]
+    squares = [diff ** 2 for diff in differences]
+    sum_of_squares = sum(squares)
+
+    return 1 / (1 + math.sqrt(sum_of_squares))
+
+
 def hasnot_seen(sorted_movie_list, user_id, rtg_by_user_id):
     unseen = []
     seen = False
@@ -51,9 +86,21 @@ def hasnot_seen(sorted_movie_list, user_id, rtg_by_user_id):
         for tup in rtg_by_user_id[user_id]:
             if tup[0] == movie_id:
                 seen = True
-        if seen == False:
+        if seen is False:
             unseen.append(movie_id)
+
     return unseen[0:11]
+
+
+def similar(*args):
+    similarity_list = []
+    for user_id in rtg_by_user_id:
+        shared = user1.get_shared_movies(user2)
+        v = user1.get_shared_ratings(shared)
+        w = user2.get_shared_ratings(shared)
+        similarity = euclidean_distance(v, w)
+        similarity_list.append((user_id, similarity))
+    
 
 def main():
     rtg_by_movie_id = {}
@@ -73,6 +120,22 @@ def main():
     print(movie_list)
     print(movie_list[:11])  # top 10
 
+    similar()
 
+
+# <<<<<<< HEAD
 if __name__ == '__main__':
     main()
+# =======
+rtg_by_movie_id = {}
+rtg_by_user_id = {}
+movie_names = {}
+
+
+def popular():
+    popular = [rating for rating in rtg_by_movie_id if len(rtg_by_movie_id[rating][1]) > 5]
+    return popular
+
+
+print(popular())
+# >>>>>>> 26991393350e0c9424e5677e98e3f7dd21ba6bc0
