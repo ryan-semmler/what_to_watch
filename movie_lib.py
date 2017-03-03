@@ -100,7 +100,14 @@ def similar(*args):
         w = user2.get_shared_ratings(shared)
         similarity = euclidean_distance(v, w)
         similarity_list.append((user_id, similarity))
-    
+        return sort similarity_list
+
+
+def get_recs(similarity_list):
+# similarity_list = ((user0, similarity0), (user1, similarity1)...)
+while user0.has_seen >= 4.5:
+
+
 
 def main():
     rtg_by_movie_id = {}
@@ -108,7 +115,6 @@ def main():
     movie_names = {}
     get_movie_data(rtg_by_movie_id, rtg_by_user_id, movie_names)
     movie_list = []
-    hasnot_seen(movie_list, user_id, rtg_by_user_id)
     # print(rtg_by_movie_id)
     # print(rtg_by_user_id)
     # print(movie_names)
@@ -120,9 +126,15 @@ def main():
     print(movie_list)
     print(movie_list[:11])  # top 10
 
-    similar()
-
-
+    choice = input("Welcome! choose 1, 2, 3")
+    if( choice == 2 or choice == 3 )
+        user1 = User(input("what's your id))
+        if choice == 2:
+            hasnot_seen(movie_list, user1.user_id, rtg_by_movie_id)
+        else:
+            get_recs(user1.similar)
+    else:
+        popular()
 # <<<<<<< HEAD
 if __name__ == '__main__':
     main()
