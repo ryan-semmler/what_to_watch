@@ -39,11 +39,11 @@ def similar(user1, rtg_by_user_id, movie_names):
     for user_id in rtg_by_user_id:
         user2 = User(user_id, rtg_by_user_id, movie_names)
         shared = user1.get_shared_movies(user2)
-        print(shared)
+        # print(shared)
         v = user1.get_shared_ratings(shared)
         w = user2.get_shared_ratings(shared)
         similarity = euclidean_distance(v, w)
-        similarity_list.append((user2, similarity))
+        similarity_list.append((User(user_id, rtg_by_user_id, movie_names), similarity))
         similarity_list = sorted(similarity_list, key=lambda x: x[1])
         return similarity_list[::-1]
 
@@ -150,11 +150,16 @@ def main():
         movie_list.append(Movie(movie_id, movie_names[movie_id], len(rtg_by_movie_id[movie_id]), mean(rtg_by_movie_id[movie_id])))
     movie_list.sort(key=operator.attrgetter('avg_rtg'))
     movie_list = movie_list[-1::-1]
-    # print(movie_list)
-    print("\n")
-    print(movie_list[:11])  # top 10
-
-    choice = input("Welcome! choose 1, 2, 3")
+    # # print(movie_list)
+    # print("\n")
+    # print(movie_list[:11])  # top 10
+    clear()
+    print("Welcome! Let me help you find a movie!\n")
+    print("Follow instructions for recommendation:\n")
+    print("\t 1) Top overall movies")
+    print("\t 2) Popular movies you haven't seen...")
+    print("\t 3) Recommendations specific to you...")
+    choice = input("\nChoose from menu: ")
     if(choice == "2" or choice == "3"):
         user1 = User(input("what's your id: "), rtg_by_user_id, movie_names)
         if choice == "2":
