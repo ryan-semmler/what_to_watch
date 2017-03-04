@@ -112,7 +112,7 @@ def hasnot_seen(sorted_movie_list, user_id, rtg_by_user_id):
         if seen is False:
             unseen.append(movie.item_id)
 
-    return unseen[0:10]
+    return unseen[:-11:-1]
 
 
 def get_recs(similarity_list):
@@ -160,10 +160,10 @@ def main():
     print("\t 2) Popular movies you haven't seen...")
     print("\t 3) Recommendations specific to you...")
     choice = input("\nChoose from menu: ")
-    if(choice == "2" or choice == "3"):
+    if choice == "2" or choice == "3":
         user1 = User(input("what's your id: "), rtg_by_user_id, movie_names)
         if choice == "2":
-            print(hasnot_seen(movie_list, user1.user_id, rtg_by_user_id))
+            print([movie_names[x] for x in hasnot_seen(movie_list, user1.user_id, rtg_by_user_id)])
         else:
             my_recs = get_recs(similar(user1, rtg_by_user_id, movie_names))
             print([movie_names[x] for x in my_recs[:10]])
