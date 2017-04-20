@@ -56,7 +56,7 @@ class Movie:
         self.avg_rtg = avg_rtg
 
     def __repr__(self):
-        return "Title: {} Avg Rating: {} ".format(self.movie_title, self.avg_rtg)
+        return "Title: {}, Avg Rating: {}\n ".format(self.movie_title, round(self.avg_rtg, 2))
 
 
 def clear():
