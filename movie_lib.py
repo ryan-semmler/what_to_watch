@@ -38,6 +38,8 @@ class User:
                 ratings_needed.append(self.movies_and_ratings[i][1])
         return ratings_needed
         # return [self.movies_and_ratings[1] for movie in shared_movies] # if self.movies_and_ratings[0] == movie]
+# =======
+#         return [self.movies_and_ratings[1] for movie in shared_movies if self.movies_and_ratings[0] == movie]
 
 
 class Movie:
@@ -48,7 +50,11 @@ class Movie:
         self.avg_rtg = avg_rtg
 
     def __repr__(self):
-        return "Title: {} Avg Rating: {} ".format(self.movie_title, self.avg_rtg)
+        return "Title: {}, Avg Rating: {}\n ".format(self.movie_title, round(self.avg_rtg, 2))
+
+
+def clear():
+    os.system("clear")
 
 
 def clear():
@@ -110,19 +116,25 @@ def hasnot_seen(sorted_movie_list, user_id, rtg_by_user_id):
     unseen = []
     seen = False
     for movie in sorted_movie_list:
-        # our_movies = rtg_by_user_id[user_id]
-        # print(our_movies)
         for tup in rtg_by_user_id[user_id]:
             if tup[0] == movie.item_id:
                 seen = True
         if seen is False:
             unseen.append(movie.item_id)
 
-    return unseen[0:10]
+# <<<<<<< HEAD
+#     return unseen[0:10]
+#
+#
+# def get_recs(similarity_list):
+#     # similarity_list = ((user0, similarity0), (user1, similarity1)...)
+# =======
+    return unseen[:-11:-1]
 
 
 def get_recs(similarity_list):
-    # similarity_list = ((user0, similarity0), (user1, similarity1)...)
+# similarity_list = ((user0, similarity0), (user1, similarity1)...)
+# >>>>>>> 477727b88fc76235a26e13869b14756eaea1c542
     rec_list = []
     for tup in similarity_list:
         for movie_tup in tup[0].movies_and_ratings:
@@ -141,6 +153,7 @@ def popular_movie_list(rtg_by_movie_id, movie_names):
     popular_movie_list = popular_movie_list[-1::-1]
     # print(popular_movie_list[:10])  # prints top 10
     return popular_movie_list[:10]
+
 
 
 def main():
